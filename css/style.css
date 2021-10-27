@@ -64,7 +64,7 @@ a{
 }
 .nav__item {
 	margin-left: 20px;
-	color: #1B1B1B;
+	color: #282828;
 	font-size: 20px;
 	font-weight: bold;
 	padding-left: 2px;
@@ -385,7 +385,7 @@ a{
 .footer__text {
 	align-self: flex-end;
 	margin-left: auto;
-	color: #fff;
+	color: #282828;
 	font-size: 18px;
 	margin-bottom: 10px;
 }
