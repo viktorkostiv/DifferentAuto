@@ -1,0 +1,350 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 100;
+    src: url("../fonts/Barlow-Thin.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 200;
+    src: url("../fonts/Barlow-ExtraLight.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 300;
+    src: url("../fonts/Barlow-Light.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 400;
+    src: url("../fonts/Barlow-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 500;
+    src: url("../fonts/Barlow-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 600;
+    src: url("../fonts/Barlow-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 700;
+    src: url("../fonts/Barlow-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 800;
+    src: url("../fonts/Barlow-ExtraBold.ttf");
+}
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: 900;
+    src: url("../fonts/Barlow-Black.ttf");
+}
+
+.base-button {
+    @apply h-[38px] md:h-[42px] w-fit flex items-center justify-center px-4 font-Barlow font-medium text-lg md:text-xl leading-3 text-white duration-300 ease-linear hover:grayscale relative z-[2]
+}
+
+.base-button::after {
+    @apply absolute top-0 left-0 z-[-1] w-full h-full bg-gradient-to-r from-brand-orange to-brand-orange/85;
+    content: '';
+    transform: rotateX(180deg);
+    clip-path: polygon(calc(0 * 8px - -1 * 1px) calc(1rem + 0.41 * 8px + 0 * 1px),
+            calc(0.01 * 8px - -0.99 * 1px) calc(1rem + 0.26 * 8px + 0.16 * 1px),
+            calc(0.05 * 8px - -0.95 * 1px) calc(1rem + 0.11 * 8px + 0.31 * 1px),
+            calc(0.11 * 8px - -0.89 * 1px) calc(1rem + -0.04 * 8px + 0.45 * 1px),
+            calc(0.19 * 8px - -0.81 * 1px) calc(1rem + -0.17 * 8px + 0.59 * 1px),
+            calc(0.29 * 8px - -0.71 * 1px) calc(1rem + -0.29 * 8px + 0.71 * 1px),
+            calc(1rem + -0.29 * 8px - -0.71 * 1px) calc(0.29 * 8px + 0.71 * 1px),
+            calc(1rem + -0.17 * 8px - -0.59 * 1px) calc(0.19 * 8px + 0.81 * 1px),
+            calc(1rem + -0.04 * 8px - -0.45 * 1px) calc(0.11 * 8px + 0.89 * 1px),
+            calc(1rem + 0.11 * 8px - -0.31 * 1px) calc(0.05 * 8px + 0.95 * 1px),
+            calc(1rem + 0.26 * 8px - -0.16 * 1px) calc(0.01 * 8px + 0.99 * 1px),
+            calc(1rem + 0.41 * 8px - 0 * 1px) calc(0 * 8px + 1 * 1px),
+
+            calc(100% - 1px + -1 * (8px - 1px)) calc(1px + 0 * (8px - 1px)),
+            calc(100% - 1px + -0.69 * (8px - 1px)) calc(1px + 0.05 * (8px - 1px)),
+            calc(100% - 1px + -0.41 * (8px - 1px)) calc(1px + 0.19 * (8px - 1px)),
+            calc(100% - 1px + -0.19 * (8px - 1px)) calc(1px + 0.41 * (8px - 1px)),
+            calc(100% - 1px + -0.05 * (8px - 1px)) calc(1px + 0.69 * (8px - 1px)),
+            calc(100% - 1px + 0 * (8px - 1px)) calc(1px + 1 * (8px - 1px)),
+
+            calc(100% + 0 * 8px - 1 * 1px) calc(100% - 1rem + -0.41 * 8px + 0 * 1px),
+            calc(100% + -0.01 * 8px - 0.99 * 1px) calc(100% - 1rem + -0.26 * 8px + -0.16 * 1px),
+            calc(100% + -0.05 * 8px - 0.95 * 1px) calc(100% - 1rem + -0.11 * 8px + -0.31 * 1px),
+            calc(100% + -0.11 * 8px - 0.89 * 1px) calc(100% - 1rem + 0.04 * 8px + -0.45 * 1px),
+            calc(100% + -0.19 * 8px - 0.81 * 1px) calc(100% - 1rem + 0.17 * 8px + -0.59 * 1px),
+            calc(100% + -0.29 * 8px - 0.71 * 1px) calc(100% - 1rem + 0.29 * 8px + -0.71 * 1px),
+            calc(100% - 1rem + 0.29 * 8px - 0.71 * 1px) calc(100% + -0.29 * 8px + -0.71 * 1px),
+            calc(100% - 1rem + 0.17 * 8px - 0.59 * 1px) calc(100% + -0.19 * 8px + -0.81 * 1px),
+            calc(100% - 1rem + 0.04 * 8px - 0.45 * 1px) calc(100% + -0.11 * 8px + -0.89 * 1px),
+            calc(100% - 1rem + -0.11 * 8px - 0.31 * 1px) calc(100% + -0.05 * 8px + -0.95 * 1px),
+            calc(100% - 1rem + -0.26 * 8px - 0.16 * 1px) calc(100% + -0.01 * 8px + -0.99 * 1px),
+            calc(100% - 1rem + -0.41 * 8px - 0 * 1px) calc(100% + 0 * 8px + -1 * 1px),
+
+            calc(1px + 1 * (8px - 1px)) calc(100% - 1px + 0 * (8px - 1px)),
+            calc(1px + 0.69 * (8px - 1px)) calc(100% - 1px + -0.05 * (8px - 1px)),
+            calc(1px + 0.41 * (8px - 1px)) calc(100% - 1px + -0.19 * (8px - 1px)),
+            calc(1px + 0.19 * (8px - 1px)) calc(100% - 1px + -0.41 * (8px - 1px)),
+            calc(1px + 0.05 * (8px - 1px)) calc(100% - 1px + -0.69 * (8px - 1px)),
+            calc(1px + 0 * (8px - 1px)) calc(100% - 1px + -1 * (8px - 1px)))
+}
+
+.base-button::before {
+    @apply absolute top-0 left-0 z-[2] w-full h-full bg-gradient-to-r from-white/40 to-transparent;
+    content: '';
+    transform: rotateX(180deg);
+    clip-path: polygon(evenodd,
+            1rem 0,
+            calc(100% + -1 * 8px) calc(0 * 8px),
+            calc(100% + -0.69 * 8px) calc(0.05 * 8px),
+            calc(100% + -0.41 * 8px) calc(0.19 * 8px),
+            calc(100% + -0.19 * 8px) calc(0.41 * 8px),
+            calc(100% + -0.05 * 8px) calc(0.69 * 8px),
+            calc(100% + 0 * 8px) calc(1 * 8px),
+            calc(100% + 0 * 8px) calc(100% - 1rem + -0.41 * 8px),
+            calc(100% + -0.01 * 8px) calc(100% - 1rem + -0.26 * 8px),
+            calc(100% + -0.05 * 8px) calc(100% - 1rem + -0.11 * 8px),
+            calc(100% + -0.11 * 8px) calc(100% - 1rem + 0.04 * 8px),
+            calc(100% + -0.19 * 8px) calc(100% - 1rem + 0.17 * 8px),
+            calc(100% + -0.29 * 8px) calc(100% - 1rem + 0.29 * 8px),
+            calc(100% - 1rem + 0.29 * 8px) calc(100% + -0.29 * 8px),
+            calc(100% - 1rem + 0.17 * 8px) calc(100% + -0.19 * 8px),
+            calc(100% - 1rem + 0.04 * 8px) calc(100% + -0.11 * 8px),
+            calc(100% - 1rem + -0.11 * 8px) calc(100% + -0.05 * 8px),
+            calc(100% - 1rem + -0.26 * 8px) calc(100% + -0.01 * 8px),
+            calc(100% - 1rem + -0.41 * 8px) calc(100% + 0 * 8px),
+            calc(1 * 8px) calc(100% + 0 * 8px),
+            calc(0.69 * 8px) calc(100% + -0.05 * 8px),
+            calc(0.41 * 8px) calc(100% + -0.19 * 8px),
+            calc(0.19 * 8px) calc(100% + -0.41 * 8px),
+            calc(0.05 * 8px) calc(100% + -0.69 * 8px),
+            calc(0 * 8px) calc(100% + -1 * 8px),
+            calc(0 * 8px) calc(1rem + 0.41 * 8px),
+            calc(0.01 * 8px) calc(1rem + 0.26 * 8px),
+            calc(0.05 * 8px) calc(1rem + 0.11 * 8px),
+            calc(0.11 * 8px) calc(1rem + -0.04 * 8px),
+            calc(0.19 * 8px) calc(1rem + -0.17 * 8px),
+            calc(0.29 * 8px) calc(1rem + -0.29 * 8px),
+            calc(1rem + -0.29 * 8px) calc(0.29 * 8px),
+            calc(1rem + -0.17 * 8px) calc(0.19 * 8px),
+            calc(1rem + -0.04 * 8px) calc(0.11 * 8px),
+            calc(1rem + 0.11 * 8px) calc(0.05 * 8px),
+            calc(1rem + 0.26 * 8px) calc(0.01 * 8px),
+            calc(1rem + 0.41 * 8px) calc(0 * 8px),
+            1rem 0,
+            1rem 1px,
+            calc(100% - 1px + -1 * (8px - 1px)) calc(1px + 0 * (8px - 1px)),
+            calc(100% - 1px + -0.69 * (8px - 1px)) calc(1px + 0.05 * (8px - 1px)),
+            calc(100% - 1px + -0.41 * (8px - 1px)) calc(1px + 0.19 * (8px - 1px)),
+            calc(100% - 1px + -0.19 * (8px - 1px)) calc(1px + 0.41 * (8px - 1px)),
+            calc(100% - 1px + -0.05 * (8px - 1px)) calc(1px + 0.69 * (8px - 1px)),
+            calc(100% - 1px + 0 * (8px - 1px)) calc(1px + 1 * (8px - 1px)),
+            calc(100% + 0 * 8px - 1 * 1px) calc(100% - 1rem + -0.41 * 8px + 0 * 1px),
+            calc(100% + -0.01 * 8px - 0.99 * 1px) calc(100% - 1rem + -0.26 * 8px + -0.16 * 1px),
+            calc(100% + -0.05 * 8px - 0.95 * 1px) calc(100% - 1rem + -0.11 * 8px + -0.31 * 1px),
+            calc(100% + -0.11 * 8px - 0.89 * 1px) calc(100% - 1rem + 0.04 * 8px + -0.45 * 1px),
+            calc(100% + -0.19 * 8px - 0.81 * 1px) calc(100% - 1rem + 0.17 * 8px + -0.59 * 1px),
+            calc(100% + -0.29 * 8px - 0.71 * 1px) calc(100% - 1rem + 0.29 * 8px + -0.71 * 1px),
+            calc(100% - 1rem + 0.29 * 8px - 0.71 * 1px) calc(100% + -0.29 * 8px + -0.71 * 1px),
+            calc(100% - 1rem + 0.17 * 8px - 0.59 * 1px) calc(100% + -0.19 * 8px + -0.81 * 1px),
+            calc(100% - 1rem + 0.04 * 8px - 0.45 * 1px) calc(100% + -0.11 * 8px + -0.89 * 1px),
+            calc(100% - 1rem + -0.11 * 8px - 0.31 * 1px) calc(100% + -0.05 * 8px + -0.95 * 1px),
+            calc(100% - 1rem + -0.26 * 8px - 0.16 * 1px) calc(100% + -0.01 * 8px + -0.99 * 1px),
+            calc(100% - 1rem + -0.41 * 8px - 0 * 1px) calc(100% + 0 * 8px + -1 * 1px),
+            calc(1px + 1 * (8px - 1px)) calc(100% - 1px + 0 * (8px - 1px)),
+            calc(1px + 0.69 * (8px - 1px)) calc(100% - 1px + -0.05 * (8px - 1px)),
+            calc(1px + 0.41 * (8px - 1px)) calc(100% - 1px + -0.19 * (8px - 1px)),
+            calc(1px + 0.19 * (8px - 1px)) calc(100% - 1px + -0.41 * (8px - 1px)),
+            calc(1px + 0.05 * (8px - 1px)) calc(100% - 1px + -0.69 * (8px - 1px)),
+            calc(1px + 0 * (8px - 1px)) calc(100% - 1px + -1 * (8px - 1px)),
+            calc(0 * 8px - -1 * 1px) calc(1rem + 0.41 * 8px + 0 * 1px),
+            calc(0.01 * 8px - -0.99 * 1px) calc(1rem + 0.26 * 8px + 0.16 * 1px),
+            calc(0.05 * 8px - -0.95 * 1px) calc(1rem + 0.11 * 8px + 0.31 * 1px),
+            calc(0.11 * 8px - -0.89 * 1px) calc(1rem + -0.04 * 8px + 0.45 * 1px),
+            calc(0.19 * 8px - -0.81 * 1px) calc(1rem + -0.17 * 8px + 0.59 * 1px),
+            calc(0.29 * 8px - -0.71 * 1px) calc(1rem + -0.29 * 8px + 0.71 * 1px),
+            calc(1rem + -0.29 * 8px - -0.71 * 1px) calc(0.29 * 8px + 0.71 * 1px),
+            calc(1rem + -0.17 * 8px - -0.59 * 1px) calc(0.19 * 8px + 0.81 * 1px),
+            calc(1rem + -0.04 * 8px - -0.45 * 1px) calc(0.11 * 8px + 0.89 * 1px),
+            calc(1rem + 0.11 * 8px - -0.31 * 1px) calc(0.05 * 8px + 0.95 * 1px),
+            calc(1rem + 0.26 * 8px - -0.16 * 1px) calc(0.01 * 8px + 0.99 * 1px),
+            calc(1rem + 0.41 * 8px - 0 * 1px) calc(0 * 8px + 1 * 1px),
+            1rem 1px);
+}
+
+.p-float-label label{
+    @apply font-Barlow font-semibold text-white
+}
+.p-inputnumber.p-component.p-inputwrapper{
+    @apply w-full
+}
+
+.p-inputtext.p-component{
+    @apply font-Barlow font-normal text-base text-white bg-transparent px-1 py-1.5 border-b border-white/40 rounded-none w-full focus:border-brand-orange focus:outline-none
+}
+
+.p-inputtextarea.p-inputtext.p-component {
+    @apply resize-none h-[125px]
+}
+
+.p-paginator.p-component{
+    @apply bg-transparent gap-2 md:gap-3 px-0
+}
+
+.p-paginator-element{
+    @apply bg-brand-gray rounded-md duration-300 ease-linear hover:scale-105 h-[30px] min-w-[30px]
+}
+
+.p-paginator-pages{
+    @apply flex gap-1
+}
+.p-highlight{
+    @apply bg-brand-orange
+}
+
+.p-slider.p-component.p-slider-horizontal {
+    @apply bg-brand-gray/20
+}
+
+.p-slider-range{
+    @apply bg-brand-orange
+}
+
+.p-slider-handle{
+    @apply w-[16px] h-[16px] -mt-2 bg-brand-orange
+}
+
+.p-slider .p-slider-handle::before{
+    @apply bg-brand-orange/20
+}
+
+.p-image-preview-indicator{
+    @apply bg-brand-black/50 duration-300 ease-linear
+}
+
+.p-galleria-thumbnail-container{
+    @apply mt-2 rounded-xl py-2 gap-2 bg-white
+}
+
+.p-image.p-component.p-image-preview-container img{
+    @apply aspect-[720/405] object-cover
+}
+
+.p-galleria-thumbnail-item-content{
+    @apply px-2 w-full
+}
+
+.p-galleria-thumbnail-item-content img{
+    @apply h-[60px] sm:h-[82px] w-full object-cover
+}
+
+.p-galleria-thumbnail-next.p-link,
+.p-galleria-thumbnail-prev.p-link {
+    @apply bg-brand-gray duration-300 ease-linear hover:scale-105
+}
+
+.p-galleria-thumbnail-item{
+    @apply opacity-100
+}
+
+.p-galleria-thumbnail-item-current div img{
+    @apply border-b-[3px] border-brand-orange
+}
+
+.p-tabview-header.p-highlight,
+.p-tabview-header a,
+.p-tabview-nav{
+    @apply bg-transparent font-Barlow font-medium text-xl text-brand-black
+}
+
+.p-tabview-nav{
+    @apply border-b border-brand-black/10
+}
+
+.p-tabview-panels{
+    @apply bg-white shadow-md rounded-b-md
+}
+
+.p-tabview-ink-bar{
+    @apply h-0.5 bg-brand-orange
+}
+
+.p-tabview-nav-content{
+    @apply mb-2
+}
+.p-galleria.p-component.p-galleria-thumbnails-bottom {
+    @apply max-w-[620px] xl:max-w-[720px] w-full 
+}
+
+.admin-form .p-inputtext.p-component{
+    @apply border border-brand-gray/30 font-medium rounded-r-md text-brand-black text-lg px-4
+}
+
+.admin-form label{
+    @apply text-brand-black
+}
+
+.admin-form .p-inputgroup-addon{
+    @apply bg-transparent border border-brand-gray/30 bg-brand-gray/10
+}
+
+.p-fileupload-content {
+    @apply w-full min-h-[320px] bg-white border-2 border-dashed border-brand-gray/30 rounded-md mt-2 relative
+}
+
+.p-fileupload-empty {
+    @apply w-full min-h-[320px] flex flex-col items-center justify-center absolute top-0 left-0
+}
+.p-fileupload-empty svg{
+    @apply stroke-brand-gray/20
+}
+.p-fileupload-empty p{
+    @apply font-Barlow font-medium text-base text-brand-gray/40
+}
+
+.p-fileupload-buttonbar {
+    @apply flex gap-4 p-0 bg-transparent
+}
+
+.p-fileupload-buttonbar .p-button {
+    @apply base-button bg-transparent focus:outline-none
+}
+
+.p-fileupload-buttonbar .p-disabled {
+    @apply after:!from-brand-gray after:!to-brand-gray/60
+}
+
+.p-fileupload-buttonbar .p-button:nth-child(2) {
+    @apply after:from-brand-green after:to-brand-green/80
+}
+
+.p-fileupload-buttonbar .p-button:nth-child(3) {
+    @apply after:from-brand-red after:to-brand-red/80
+}
+
+.p-fileupload-file-name{
+    @apply font-Barlow font-semibold text-base text-brand-black
+}
+
+.p-fileupload-file-size{
+    @apply font-Barlow font-normal text-base text-brand-black
+}
+button.p-button.p-component.p-button-icon-only.p-button-danger.p-button-rounded.p-button-text.p-fileupload-file-remove{
+    @apply bg-brand-orange duration-300 ease-linear hover:bg-brand-gray w-[32px] h-[32px]
+}
