@@ -74,7 +74,7 @@ export default {
                     <template #item="slotProps">
                         <Image :src="slotProps.item" alt="car" class="w-full duration-300 ease-linear group" preview />
                     </template>
-                    <template #thumbnail="slotProps">
+                    <template #thumbnail="slotProps" v-if="images.length > 1">
                         <img :src="slotProps.item" alt="car" />
                     </template>
                 </Galleria>

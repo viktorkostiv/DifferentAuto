@@ -348,3 +348,65 @@
 button.p-button.p-component.p-button-icon-only.p-button-danger.p-button-rounded.p-button-text.p-fileupload-file-remove{
     @apply bg-brand-orange duration-300 ease-linear hover:bg-brand-gray w-[32px] h-[32px]
 }
+
+.loader {
+    @apply w-[48px] h-[48px] rounded-[50%] inline-block relative;
+    background: linear-gradient(0deg, rgba(255, 61, 0, 0.2) 33%, #E33A11 100%);
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+.loader::after {
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute w-[44px] h-[44px] rounded-[50%] bg-white;
+    content: '';  
+    box-sizing: border-box;
+}
+@keyframes rotation {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg)}
+} 
+
+.admin-images .p-image.p-component img{
+    @apply object-cover w-full h-[160px];
+}
+
+.admin-images .p-image-preview-container{
+    @apply w-full
+}
+.p-highlight .p-checkbox-box{
+    @apply bg-brand-orange rounded-md
+}
+
+.p-checkbox.p-component {
+    @apply bg-transparent
+}
+
+.p-checkbox-box{
+    @apply bg-transparent border border-brand-gray/30 rounded-md
+}
+
+.p-checkbox-input{
+    @apply rounded-md bg-transparent
+}
+
+.error-input{
+    border: 1px solid #FF2F2F !important;
+    box-shadow: 0px 0px 4px rgba(255, 47, 47, 0.90) !important;
+}
+
+.popup-enter-active {
+    animation: popup .3s ease;
+}
+
+.popup-leave-active {
+    animation: popup .3s ease reverse;
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

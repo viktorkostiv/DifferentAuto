@@ -1,14 +1,15 @@
 <script>
 
 export default {
-    components: {
-
+    props: {
+        data: {
+            type: Object,
+            required: true
+        }
     },
     data() {
         return {
-            data: [
-
-            ]
+            data: null
         }
     }
 }

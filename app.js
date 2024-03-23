@@ -8,17 +8,23 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const compression = require('compression');
-// const admin = require("firebase-admin");
+const admin = require("firebase-admin");
 
-// const AuthRouter = require('./routes/AuthRouter');
+const CarsRouter = require('./routes/CarsRouter');
 
-// const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("./serviceAccountKey.json");
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "https://villa-cielgacha-default-rtdb.europe-west1.firebasedatabase.app",
-//     storageBucket: "villa-cielgacha.appspot.com",
-// });
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    apiKey: "AIzaSyDZ1ungctjmSX0sgbpnqiXIVNY-GQmza9c",
+    authDomain: "different-auto.firebaseapp.com",
+    databaseURL: "https://different-auto-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "different-auto",
+    storageBucket: "different-auto.appspot.com",
+    messagingSenderId: "1001724905023",
+    appId: "1:1001724905023:web:69a13cf03d57b1c6b21a8a",
+    measurementId: "G-65WCXWJ7BX"
+});
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
@@ -38,7 +44,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(compression())
 
-// app.use('/auth', AuthRouter);
+app.use('/api/cars', CarsRouter);
 // app.use('/api/rooms', RoomsRouter);
 
 app.get('*', (req, res) => {

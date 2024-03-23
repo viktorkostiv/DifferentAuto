@@ -1,13 +1,40 @@
 <script>
+import { useCarsStore } from '../../../stores/cars';
+
 import Image from 'primevue/image';
+import BaseLoader from '../../UI/BaseLoader.vue';
 export default {
+    setup() {
+        const carsStore = useCarsStore();
+
+        return {
+            carsStore
+        };
+    },
     components: {
-        Image
+        Image,
+        BaseLoader
     },
     data() {
         return {
-            inputValue: null
+            data: null,
+
+            inputValue: null,
+
+            statuses: {
+                active: 'from-brand-green/40 to-brand-green/30 border border-brand-green text-brand-green',
+                inactive: 'from-brand-blue/40 to-brand-blue/30 border border-brand-blue text-brand-blue',
+                sold: 'from-brand-orange/20 to-brand-orange/10 border border-brand-orange text-brand-orange'
+            }
         }
+    },
+    methods: {
+        async getAll() {
+            this.data = await this.carsStore.getAll();
+        }
+    },
+    async mounted() {
+        await this.getAll()
     }
 }
 </script>
@@ -20,14 +47,14 @@ export default {
                 <div class="w-1/3 h-1 bg-brand-orange"></div>
             </div>
 
-            <button class="base-button gap-2">
+            <router-link to="/admin/cars/new" class="base-button gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                     <path fill-rule="evenodd"
                         d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-11.25a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z"
                         clip-rule="evenodd" />
                 </svg>
                 Adicionar Carro
-            </button>
+            </router-link>
         </div>
 
         <form @submit.prevent="" class="w-full flex gap-4 items-center">
@@ -60,38 +87,45 @@ export default {
 
         <div class="flex flex-col gap-3">
             <div
-                class="w-full grid grid-cols-[180px_180px_180px_1fr_120px_120px_120px] bg-brand-gray border-b-2 border-brand-orange rounded-md ">
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                class="w-full grid grid-cols-[140px_180px_1fr_120px_120px_120px] bg-brand-gray border-b-2 border-brand-orange rounded-md ">
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                    status</p>
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Imagem</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
-                    Fabricante</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
-                    Modelo</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Carro</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Ano</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Preço</p>
-                <p class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
+                <p
+                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Ações</p>
             </div>
 
-            <div class="flex flex-col gap-2">
-                <div
-                    class="w-full grid grid-cols-[180px_180px_180px_1fr_120px_120px_120px] bg-white rounded-md shadow-xl items-center border-t-2 border-brand-gray-light/50">
+            <div v-if="data" class="flex flex-col gap-2">
+                <div v-for="car in data" :key="car.id"
+                    class="w-full grid grid-cols-[140px_180px_1fr_120px_120px_120px] bg-white rounded-md shadow-xl items-center border-t-2 border-brand-gray-light/50">
                     <div class="py-2 px-4">
-                        <Image
-                            src="https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F1-8055024753-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=a3795565-b7eb-434b-93cb-8584f9ef8b44"
-                            alt="car" preview class="w-full h-[86px] object-cover rounded-md" />
+                        <p class="font-Barlow font-bold text-sm uppercase bg-gradient-to-r w-fit px-2 py-1 rounded-lg "
+                            :class="statuses[car.status]">{{ car.status === 'active' ? 'Ativo' : car.status === 'inactive' ? 'Inativo' : 'Vendido' }}</p>
                     </div>
-                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">Citroën</p>
-                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">Picasso</p>
-                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">Citroën Picasso C4 Grand
-                        Picasso - 09</p>
-                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">2009</p>
-                    <p class="font-Barlow font-semibold text-lg text-brand-orange py-2 px-4">8 450€</p>
-                    <a href="/admin/cars/id" class="py-2 px-4 w-fit">
+
+                    <div class="py-2 px-4">
+                        <Image v-if="car.images.length > 0" :src="car.images.find(el => el.order == 1).url" alt="car" preview
+                            class="w-full h-[86px] object-cover rounded-md" />
+                        <img v-else src="https://placehold.co/180x86?text=Placeholder" alt="#" class="w-full h-[86px] object-cover rounded-md">
+                    </div>
+                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">{{ car.title }}</p>
+                    <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">{{ car.details.find(el =>
+            el.title.toLowerCase() === 'ano').value }}</p>
+                    <p class="font-Barlow font-bold text-lg text-brand-orange py-2 px-4">{{ car.price }}€</p>
+                    <router-link :to="`/admin/cars/${car.id}`" class="py-2 px-4 w-fit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                             class="w-7 h-7 fill-brand-black duration-300 ease-linear hover:scale-105 hover:fill-brand-orange">
                             <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -99,9 +133,10 @@ export default {
                                 d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
                                 clip-rule="evenodd" />
                         </svg>
-                    </a>
+                    </router-link>
                 </div>
             </div>
+            <BaseLoader v-else></BaseLoader>
         </div>
     </section>
 </template>

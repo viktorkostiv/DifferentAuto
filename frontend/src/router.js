@@ -33,7 +33,7 @@ const router = createRouter({
         path: '/admin/cars/edit/:id',
         component: CarsEdit,
     }, {
-        path: '/admin/cars/new/:id',
+        path: '/admin/cars/new',
         component: CarsEdit,
     }, {
         path: '/admin/messages',
