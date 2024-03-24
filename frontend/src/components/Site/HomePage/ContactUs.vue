@@ -1,15 +1,98 @@
 <script>
+import { RunAlertMixin } from '../../../mixins/RunAlertMixin';
+import { useUtilsStore } from '../../../stores/utils';
+
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Textarea from 'primevue/textarea';
 
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
+import axios from 'axios';
+
 export default {
+    mixins: [RunAlertMixin],
     components: {
         FloatLabel,
         InputText,
         InputNumber,
         Textarea
+    },
+    setup() {
+        const utilsStore = useUtilsStore();
+
+        return {
+            utilsStore,
+        };
+    },
+    data() {
+        return {
+            v$: useVuelidate(),
+
+            name: null,
+            email: null,
+            message: null,
+
+            nameError: false,
+            emailError: false,
+            messageError: false,
+
+            errorMessage: "",
+        }
+    },
+    validations() {
+        return {
+            name: { required },
+            email: { required, email },
+            message: { required },
+        }
+    },
+    methods: {
+        async submitForm() {
+            this.v$.$validate();
+
+            if (!this.v$.$error) {
+                try {
+                    let domain = this.utilsStore.domain;
+                    const id = `${new Date().getTime()}${Math.random().toString(36).substring(2, 24)}`;
+                    const currentDate = new Date();
+                    await axios.post(`${domain}/api/messages/create`, {
+                        data: {
+                            id,
+                            createdAt: currentDate,
+                            name: this.name,
+                            email: this.email,
+                            message: this.message,
+                            status: 'new'
+                        },
+                    }).then(async () => {
+                        this.runAlert('success', 'Sucesso', 'Mensagem enviada com sucesso!', 3000);
+                        this.name = null;
+                        this.email = null,
+                        this.message = null;
+
+                    });
+                } catch (error) {
+                    console.error(error);
+                    this.runAlert('error', 'Erro', 'Tente mais tarde', 3000);
+                }
+            } else {
+                console.log(this.v$.name.$error, this.v$.email.$error, this.v$.message.$error)
+                if (this.v$.name.$error) {
+                    this.nameError = true;
+                    this.runAlert("error", "Erro de validação: Nome", this.v$.name.$errors[0].$message, 3000);
+                }
+                if (this.v$.email.$error) {
+                    this.emailError = true;
+                    this.runAlert("error", "Erro de validação: E-mail", this.v$.email.$errors[0].$message, 3000)
+                }
+                if (this.v$.message.$error) {
+                    this.messageError = true;
+                    this.runAlert("error", "Erro de validação: Mensagem", this.v$.message.$errors[0].$message, 3000);
+                }
+            }
+        }
     }
 }
 </script>
@@ -17,9 +100,11 @@ export default {
 <template>
     <section class="bg-brand-gray relative ">
         <div class="absolute top-0 right-0 h-auto md:h-full w-full md:w-auto">
-            <img src="../../../assets/images/contact-us-bg-md.png" alt="contact us" class="h-auto w-full aspect-[320/220] sm:aspect-[320/160] object-cover object-top md:hidden">
+            <img src="../../../assets/images/contact-us-bg-md.png" alt="contact us"
+                class="h-auto w-full aspect-[320/220] sm:aspect-[320/160] object-cover object-top md:hidden">
             <img src="../../../assets/images/contact-us-bg.png" alt="contact us" class="h-full hidden md:block">
-            <div class="absolute w-full h-full top-px md:top-0 left-0 lg:-left-px bg-gradient-to-t md:bg-gradient-to-r from-brand-gray  to-brand-gray/50 lg:to-transparent z-[2]">
+            <div
+                class="absolute w-full h-full top-px md:top-0 left-0 lg:-left-px bg-gradient-to-t md:bg-gradient-to-r from-brand-gray  to-brand-gray/50 lg:to-transparent z-[2]">
             </div>
         </div>
         <div class="max-w-[380px] md:max-w-[960px] w-full mx-auto px-4 relative z-[3] pt-40 pb-20 md:py-20">
@@ -27,24 +112,23 @@ export default {
                 <h2 class="font-Barlow font-bold text-white text-3xl md:text-4xl uppercase">CONTATE-NOS</h2>
                 <div class="w-1/3 h-1 bg-brand-orange"></div>
             </div>
-            <form action="" class="my-12 max-w-[380px] md:max-w-[320px] flex flex-col gap-8">
+            <form @submit.prevent="submitForm()" class="my-12 max-w-[380px] md:max-w-[320px] flex flex-col gap-8">
                 <FloatLabel>
-                    <InputText id="name" />
+                    <InputText id="name" v-model="name" @input="nameError = false"
+                        :class="{ 'error-input': nameError }" />
                     <label for="name">Nome</label>
                 </FloatLabel>
                 <FloatLabel>
-                    <InputText id="email" />
+                    <InputText id="email" v-model="email" @input="emailError = false"
+                        :class="{ 'error-input': emailError }" />
                     <label for="email">E-mail</label>
                 </FloatLabel>
                 <FloatLabel>
-                    <InputNumber id="phone" />
-                    <label for="phone">Telefone</label>
+                    <Textarea id="message" v-model="message" @input="messageError = false"
+                        :class="{ 'error-input': messageError }" />
+                    <label for="massage">Mensagem</label>
                 </FloatLabel>
-                <FloatLabel>
-                    <Textarea />
-                    <label>Mensagem</label>
-                </FloatLabel>
-                <button class="base-button !w-[120px] mx-auto">Enviar</button>
+                <button type="submit" class="base-button !w-[120px] mx-auto">Enviar</button>
             </form>
 
             <a href="#"

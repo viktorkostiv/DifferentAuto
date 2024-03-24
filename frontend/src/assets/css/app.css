@@ -410,3 +410,19 @@ button.p-button.p-component.p-button-icon-only.p-button-danger.p-button-rounded.
         opacity: 1;
     }
 }
+
+span.p-dropdown-label.p-inputtext{
+    @apply !text-white !opacity-100 p-0
+}
+
+.p-dropdown-trigger{
+    @apply w-fit
+}
+
+svg.p-icon.p-dropdown-clear-icon{
+    @apply mr-2
+}
+
+.p-highlight{
+    @apply bg-brand-orange
+}

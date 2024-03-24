@@ -173,10 +173,6 @@ export default {
                                     clip-rule="evenodd" />
                             </svg>
                         </router-link>
-
-
-
-
                     </div>
                 </div>
             </nav>

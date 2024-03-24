@@ -12,6 +12,7 @@ const admin = require("firebase-admin");
 
 const AuthRouter = require('./routes/AuthRouter');
 const CarsRouter = require('./routes/CarsRouter');
+const MessagesRouter = require('./routes/MessagesRouter');
 
 const serviceAccount = require("./serviceAccountKey.json");
 
@@ -47,6 +48,7 @@ app.use(compression())
 
 app.use('/auth', AuthRouter);
 app.use('/api/cars', CarsRouter);
+app.use('/api/messages', MessagesRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));

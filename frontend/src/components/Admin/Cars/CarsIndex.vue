@@ -2,7 +2,11 @@
 import { useCarsStore } from '../../../stores/cars';
 
 import Image from 'primevue/image';
+import Dropdown from 'primevue/dropdown';
+import Paginator from 'primevue/paginator';
+
 import BaseLoader from '../../UI/BaseLoader.vue';
+
 export default {
     setup() {
         const carsStore = useCarsStore();
@@ -13,29 +17,79 @@ export default {
     },
     components: {
         Image,
-        BaseLoader
+        Dropdown,
+        BaseLoader,
+        Paginator
     },
     data() {
         return {
             data: null,
+            itemsPerPage: 16,
+            activePage: 0,
 
-            inputValue: null,
-
-            statuses: {
+            statusesStyles: {
                 active: 'from-brand-green/40 to-brand-green/30 border border-brand-green text-brand-green',
                 inactive: 'from-brand-blue/40 to-brand-blue/30 border border-brand-blue text-brand-blue',
                 sold: 'from-brand-orange/20 to-brand-orange/10 border border-brand-orange text-brand-orange'
-            }
+            },
+            statuses: [
+                { name: 'Ativo', code: 'active' },
+                { name: 'Inativo', code: 'inactive' },
+                { name: 'Vendido', code: 'sold' },
+            ],
+
+            searchedTerm: null,
+            searchedStatus: null,
         }
     },
     methods: {
         async getAll() {
             this.data = await this.carsStore.getAll();
+        },
+        getPage(event) {
+            this.scrollToTop()
+            this.activePage = event.page;
+        },
+        scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     },
     async mounted() {
         await this.getAll()
-    }
+    },
+    computed: {
+        filteredData() {
+
+            if (this.data) {
+                let list = [...this.data];
+                let data = [];
+
+                if (this.searchedTerm) {
+                    this.activePage = 0;
+                    list = list.filter(car =>
+                        car.id.toString().toUpperCase() === this.searchedTerm.trim().toUpperCase() ||
+                        car.title.toLowerCase().includes(this.searchedTerm.toLowerCase())
+                    );
+                }
+
+                if (this.searchedStatus) {
+                    this.activePage = 0;
+                    list = list.filter(car =>
+                        car.status.toLowerCase() === this.searchedStatus.code.toLowerCase()
+                    );
+                }
+
+                for (let i = 0; i < list.length; i += this.itemsPerPage) {
+                    data.push(list.slice(i, i + this.itemsPerPage));
+                }
+
+                return data
+            } else return []
+        },
+    },
 }
 </script>
 
@@ -57,11 +111,11 @@ export default {
             </router-link>
         </div>
 
-        <form @submit.prevent="" class="w-full flex gap-4 items-center">
+        <div class="w-full flex gap-4 items-center">
             <div class="relative w-full">
-                <input v-model="inputValue" type="text"
+                <input v-model="searchedTerm" type="text"
                     class="w-full rounded-md h-[52px] bg-white px-12 py-4 font-Barlow font-medium text-base text-brand-black border-2 border-brand-gray-light placeholder:text-brand-black focus:outline-none focus:border-brand-orange shadow-sm"
-                    placeholder="Pesquise por ID ou nome do carro">
+                    placeholder="Pesquise por ID ou Nome do carro">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="w-5 h-5 fill-brand-black absolute top-1/2 -translate-y-1/2 left-4">
                     <path fill-rule="evenodd"
@@ -69,28 +123,28 @@ export default {
                         clip-rule="evenodd" />
                 </svg>
 
-                <a v-if="inputValue" href="#" @click.prevent="inputValue = null"
+                <a v-if="searchedTerm" href="#" @click.prevent="searchedTerm = null"
                     class="absolute top-1/2 -translate-y-1/2 right-4 duration-300 ease-linear hover:scale-110">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                        class="w-5 h-5 fill-brand-gray-dark">
+                        class="w-5 h-5 fill-brand-gray">
                         <path
                             d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                     </svg>
                 </a>
             </div>
 
-            <button type="submit" v-if="inputValue"
+            <!-- <button type="submit" v-if="searchedTerm"
                 class="w-[120px] h-[52px] rounded-md bg-brand-orange block font-Barlow font-semibold text-lg text-white capitalize duration-300 ease-linear hover:grayscale">
                 Procurar
-            </button>
-        </form>
+            </button> -->
+        </div>
 
         <div class="flex flex-col gap-3">
             <div
-                class="w-full grid grid-cols-[140px_180px_1fr_120px_120px_120px] bg-brand-gray border-b-2 border-brand-orange rounded-md ">
-                <p
-                    class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
-                    status</p>
+                class="w-full grid grid-cols-[200px_180px_1fr_120px_120px_120px] bg-brand-gray border-b-2 border-brand-orange rounded-md items-center">
+
+                <Dropdown v-model="searchedStatus" :options="statuses" showClear optionLabel="name" placeholder="status"
+                    class="w-full font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase bg-transparent placeholder:text-white focus:outline-none focus:border-none" />
                 <p
                     class="font-Barlow font-medium text-lg text-white border-l border-brand-gray-light/40 py-2 px-4 uppercase">
                     Imagem</p>
@@ -109,21 +163,23 @@ export default {
             </div>
 
             <div v-if="data" class="flex flex-col gap-2">
-                <div v-for="car in data" :key="car.id"
-                    class="w-full grid grid-cols-[140px_180px_1fr_120px_120px_120px] bg-white rounded-md shadow-xl items-center border-t-2 border-brand-gray-light/50">
+                <div v-for="car in filteredData[activePage]" :key="car.id"
+                    class="w-full grid grid-cols-[200px_180px_1fr_120px_120px_120px] bg-white rounded-md shadow-xl items-center border-t-2 border-brand-gray-light/50">
                     <div class="py-2 px-4">
                         <p class="font-Barlow font-bold text-sm uppercase bg-gradient-to-r w-fit px-2 py-1 rounded-lg "
-                            :class="statuses[car.status]">{{ car.status === 'active' ? 'Ativo' : car.status === 'inactive' ? 'Inativo' : 'Vendido' }}</p>
+                            :class="statusesStyles[car.status]">{{ car.status === 'active' ? 'Ativo' : car.status ===
+                    'inactive' ? 'Inativo' : 'Vendido' }}</p>
                     </div>
 
                     <div class="py-2 px-4">
-                        <Image v-if="car.images.length > 0" :src="car.images.find(el => el.order == 1).url" alt="car" preview
-                            class="w-full h-[86px] object-cover rounded-md" />
-                        <img v-else src="https://placehold.co/180x86?text=Placeholder" alt="#" class="w-full h-[86px] object-cover rounded-md">
+                        <Image v-if="car.images.length > 0" :src="car.images.find(el => el.order == 1).url" alt="car"
+                            preview class="w-full h-[86px] object-cover rounded-md" />
+                        <img v-else src="https://placehold.co/180x86?text=Placeholder" alt="#"
+                            class="w-full h-[86px] object-cover rounded-md">
                     </div>
                     <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">{{ car.title }}</p>
                     <p class="font-Barlow font-medium text-lg text-brand-black py-2 px-4">{{ car.details.find(el =>
-            el.title.toLowerCase() === 'ano').value }}</p>
+                    el.title.toLowerCase() === 'ano').value }}</p>
                     <p class="font-Barlow font-bold text-lg text-brand-orange py-2 px-4">{{ car.price }}€</p>
                     <router-link :to="`/admin/cars/${car.id}`" class="py-2 px-4 w-fit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -135,6 +191,9 @@ export default {
                         </svg>
                     </router-link>
                 </div>
+                <Paginator v-if="filteredData.length > 1" @page="getPage" :rows="1" :totalRecords="filteredData.length"
+                    template="PrevPageLink PageLinks NextPageLink">
+                </Paginator>
             </div>
             <BaseLoader v-else></BaseLoader>
         </div>

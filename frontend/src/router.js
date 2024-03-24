@@ -13,6 +13,7 @@ import CarsIndex from './components/Admin/Cars/CarsIndex.vue';
 import CarsModel from './components/Admin/Cars/CarsModel.vue';
 import CarsEdit from './components/Admin/Cars/CarsEdit.vue';
 import MessagesIndex from './components/Admin/Messages/MessagesIndex.vue';
+import MessagesModel from './components/Admin/Messages/MessagesModel.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -46,6 +47,9 @@ const router = createRouter({
     }, {
         path: '/admin/messages',
         component: MessagesIndex,
+    }, {
+        path: '/admin/messages/:id',
+        component: MessagesModel,
     }, ],
 });
 

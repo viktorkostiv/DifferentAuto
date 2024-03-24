@@ -209,7 +209,7 @@ export default {
             } catch (error) {
                 console.error(error);
                 this.cancelChanges();
-                this.runAlert('error', 'Updating Error', '', 3000);
+                this.runAlert('error', 'Erro', 'Tente mais tarde', 3000);
             }
         },
 
@@ -329,7 +329,7 @@ export default {
                     this.title = 'Atenção!'
                     this.question = 'Se sair desta página, o carro será excluído.'
                     this.deleteModal = true;
-                } else this.$router.push('/admin/cars');
+                } else this.$router.push(`/admin/cars/${this.data.id}`);
             } else {
                 this.stepBefore = this.step;
                 this.step = this.step - 1;

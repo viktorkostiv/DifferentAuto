@@ -186,17 +186,17 @@ exports.delete = catchAsync(async (req, res, next) => {
         const bucket = admin.storage().bucket();
         const folderPath = id;
 
-        const roomRef = admin.firestore().collection('cars').doc(id);
-        const room = await roomRef.get();
+        const ref = admin.firestore().collection('cars').doc(id);
+        const car = await ref.get();
 
-        if (!room.exists) {
+        if (!car.exists) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Car not found'
             });
         }
 
-        await roomRef.delete();
+        await ref.delete();
         console.log(`Car ${id} Deleted`)
 
         const [files] = await bucket.getFiles({
@@ -251,4 +251,3 @@ exports.showOnBanner = catchAsync(async (req, res, next) => {
         res.status(400).send(error.code);
     }
 });
-

@@ -81,7 +81,7 @@ export default defineComponent({
                 <img :src="slotProps.item.url" alt="car" />
             </template>
         </Galleria>
-        <Image v-else :src="data.images[0].url" alt="car" class="w-full duration-300 ease-linear group max-w-[620px] xl:max-w-[720px] w-full" preview />
+        <Image v-if="data.images.length == 1" :src="data.images[0].url" alt="car" class="w-full duration-300 ease-linear group max-w-[620px] xl:max-w-[720px] w-full" preview />
     </div>
     <TabView>
         <TabPanel header="Detalhes" v-if="data.details && data.details.length > 0">
