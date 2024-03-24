@@ -1,5 +1,9 @@
 const catchAsync = require('../utils/catchAsync');
 const admin = require('firebase-admin');
+const sgMail = require('@sendgrid/mail');
+require('dotenv').config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.getAll = catchAsync(async (req, res, next) => {
     try {
@@ -98,23 +102,46 @@ exports.create = catchAsync(async (req, res, next) => {
 
         data.createdAt = new Date(data.createdAt);
 
-        console.log(data);
         const ref = admin.firestore().collection('messages');
 
-        // const querySnapshot = await ref.where('email', '==', data.email).orderBy('createdAt').get();
-        // const messages = [];
-        // querySnapshot.forEach(doc => {
-        //     messages.push(doc.data());
-        // });
+        const querySnapshot = await ref.where('email', '==', data.email).orderBy('createdAt').get();
+        const messages = [];
+        querySnapshot.forEach(doc => {
+            messages.push(doc.data());
+        });
 
-        // if (messages.length >= 5) {
-        //     const oldestMessage = messages[0];
-        //     await ref.doc(oldestMessage.id).delete();
-        //     console.log(`Oldest message with id ${oldestMessage.id} was deleted`);
-        // }
+        if (messages.length >= 5) {
+            const oldestMessage = messages[0];
+            await ref.doc(oldestMessage.id).delete();
+            console.log(`Oldest message with id ${oldestMessage.id} was deleted`);
+        }
 
         ref.doc(data.id).set(data);
         console.log(`Message was created with id ${data.id}`);
+
+        const emailBody = `
+        <h2>Different Auto</h2>
+        <br>
+        <p>Nome: ${data.name}</p>
+        <p>Email: ${data.email}</p>
+        <br>
+        <br>
+        <p>Message:<br> ${data.message}</p>
+    `;
+
+        const msg = {
+            to: process.env.EMAIL_TO,
+            from: process.env.EMAIL_FROM,
+            subject: 'Different Auto Email',
+            html: emailBody,
+        };
+
+        try {
+            await sgMail.send(msg);
+            console.log('Email sent');
+        } catch (error) {
+            console.error(error);
+        }
 
         res.status(200).json({
             status: 'success'
@@ -123,4 +150,4 @@ exports.create = catchAsync(async (req, res, next) => {
         console.error(error);
         res.status(400).send(error.code);
     }
-})
+});

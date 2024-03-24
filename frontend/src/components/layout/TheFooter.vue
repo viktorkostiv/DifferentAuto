@@ -1,6 +1,13 @@
 <script>
+import { useUtilsStore } from '../../stores/utils';
 export default {
+    setup() {
+        const utilsStore = useUtilsStore();
 
+        return {
+            utilsStore
+        };
+    },
 }
 </script>
 
@@ -15,10 +22,10 @@ export default {
                 </div>
 
                 <div class="flex gap-6">
-                    <a href="#" class="">
+                    <a :href="utilsStore.facebook" class="">
                         <i class="pi pi-facebook text-2xl md:text-3xl duration-300 ease-linear hover:text-brand-orange"></i>
                     </a>
-                    <a href="" class="">
+                    <a :href="utilsStore.whatsapp" class="">
                         <i class="pi pi-whatsapp text-2xl md:text-3xl duration-300 ease-linear hover:text-brand-orange"></i>
                     </a>
                 </div>

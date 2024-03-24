@@ -131,7 +131,7 @@ export default {
                 <button type="submit" class="base-button !w-[120px] mx-auto">Enviar</button>
             </form>
 
-            <a href="#"
+            <a :href="utilsStore.addressLink" target="_blank"
                 class="flex w-fit mx-auto md:mx-0 items-center gap-4 font-Barlow font-medium text-base text-white group duration-300 ease-linear hover:text-brand-orange mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="w-6 h-6 fill-white duration-300 ease-linear group-hover:scale-105 group-hover:fill-brand-orange">
@@ -140,10 +140,10 @@ export default {
                         clip-rule="evenodd" />
                 </svg>
 
-                rua Filipe Ferrer n7 9B, Faro
+                {{ utilsStore.address }}
             </a>
 
-            <a href="#"
+            <a :href="`tel:${utilsStore.phoneNumber}`"
                 class="flex w-fit mx-auto md:mx-0 items-center gap-2 font-Barlow font-medium text-base text-white group duration-300 ease-linear hover:text-brand-orange">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="w-6 h-6 fill-white duration-300 ease-linear group-hover:scale-105 group-hover:fill-brand-orange">
@@ -152,7 +152,7 @@ export default {
                         clip-rule="evenodd" />
                 </svg>
 
-                + 01 345 647 745
+                {{ utilsStore.phoneNumber }}
             </a>
         </div>
     </section>

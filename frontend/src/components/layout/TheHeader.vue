@@ -1,6 +1,13 @@
 <script>
+import { useUtilsStore } from '../../stores/utils';
 export default {
+    setup() {
+        const utilsStore = useUtilsStore();
 
+        return {
+            utilsStore
+        };
+    },
 }
 </script>
 
@@ -8,7 +15,7 @@ export default {
     <header class="w-full border-t-4 border-brand-orange relative z-[2]">
         <div class="w-full bg-brand-gray py-1.5">
             <div class="max-w-[1220px] w-full mx-auto px-4 flex justify-between">
-                <a href="#" class="flex items-center gap-2 font-Barlow font-medium text-sm text-white group duration-300 ease-linear hover:text-brand-orange">
+                <a :href="`tel:${utilsStore.phoneNumber}`" class="flex items-center gap-2 font-Barlow font-medium text-sm text-white group duration-300 ease-linear hover:text-brand-orange">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                         class="w-4 h-4 fill-white duration-300 ease-linear group-hover:scale-125 group-hover:fill-brand-orange">
                         <path fill-rule="evenodd"
@@ -16,9 +23,9 @@ export default {
                             clip-rule="evenodd" />
                     </svg>
 
-                    + 01 345 647 745
+                    {{ utilsStore.phoneNumber }}
                 </a>
-                <a href="#" class="flex items-center gap-2 font-Barlow font-medium text-[0px] sm:text-sm text-white group duration-300 ease-linear hover:text-brand-orange">
+                <a :href="utilsStore.addressLink" target="_blank" class="flex items-center gap-2 font-Barlow font-medium text-[0px] sm:text-sm text-white group duration-300 ease-linear hover:text-brand-orange">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                         class="w-4 h-4 fill-white duration-300 ease-linear group-hover:scale-125 group-hover:fill-brand-orange">
                         <path fill-rule="evenodd"
@@ -26,7 +33,7 @@ export default {
                             clip-rule="evenodd" />
                     </svg>
 
-                    rua Filipe Ferrer n7 9B, Faro
+                    {{ utilsStore.address }}
                 </a>
             </div>
         </div>
@@ -35,7 +42,7 @@ export default {
                 <nav class="gap-6 hidden md:flex">
                     <router-link to="/" class="font-Barlow font-semibold text-lg text-brand-black tracking-tight duration-300 ease-linear hover:text-brand-orange">Página Principal</router-link>
                     <router-link to="/cars" class="font-Barlow font-semibold text-lg text-brand-black tracking-tight duration-300 ease-linear hover:text-brand-orange">Carros</router-link>
-                    <router-link to="/" class="font-Barlow font-semibold text-lg text-brand-black tracking-tight duration-300 ease-linear hover:text-brand-orange">Contate-nos</router-link>
+                    <!-- <router-link to="/" class="font-Barlow font-semibold text-lg text-brand-black tracking-tight duration-300 ease-linear hover:text-brand-orange">Contate-nos</router-link> -->
                 </nav>
                 <router-link to="/" class="w-fit mx-auto md:mx-0">
                     <img src="../../assets/images/logo.png" alt="logo" class="w-[120px] md:w-[160px] object-contain">
