@@ -1,5 +1,26 @@
 <script>
+import { RunAlertMixin } from '../../mixins/RunAlertMixin';
+
+import { useUtilsStore } from '../../stores/utils';
+import { useProfileStore } from '../../stores/profile';
+
+import BaseLoader from '../UI/BaseLoader.vue';
+
+import firebase from 'firebase/compat/app';
+
 export default {
+
+    mixins: [RunAlertMixin],
+    components: { BaseLoader },
+    setup() {
+        const utilsStore = useUtilsStore();
+        const profileStore = useProfileStore();
+
+        return {
+            utilsStore,
+            profileStore
+        };
+    },
     data() {
         return {
             admin: null,
@@ -13,6 +34,27 @@ export default {
         }
     },
     methods: {
+
+        async logout() {
+            try {
+                await firebase.auth().signOut().then(() => {
+                    localStorage.setItem('user', null)
+                    this.runAlert('success', 'Bem-sucedido Logout', '', 3000);
+                    this.$router.push('/');
+                })
+            } catch (error) {
+                this.runAlert('error', 'Logout Error', '', 3000);
+                console.error(error.code);
+            }
+        },
+
+        async getAdmin() {
+            this.admin = await this.profileStore.getUser();
+
+            if (!this.admin || (this.admin.role !== 'owner' && this.admin.role !== 'admin')) {
+                await this.logout()
+            }
+        },
 
         getActivePage() {
             const currentPathname = this.$route.path;
@@ -38,6 +80,7 @@ export default {
         },
     },
     async mounted() {
+        await this.getAdmin()
 
         this.getActivePage();
 
@@ -51,17 +94,17 @@ export default {
 </script>
 
 <template>
-    <div class="relative w-full bg-brand-gray-light min-h-screen">
+    <div v-if="admin" class="relative w-full bg-brand-gray-light min-h-screen">
         <div ref="header" class="absolute w-full top-0 left-0 p-[10px] md:p-4 z-[5]">
-            <div
-                class="w-full bg-white rounded-md p-3 md:px-5 md:py-4 shadow-sm flex justify-between items-center">
+            <div class="w-full bg-white rounded-md p-3 md:px-5 md:py-4 shadow-sm flex justify-between items-center">
                 <router-link to="/">
                     <img src="../../assets/images/logo.png" alt="logo" class="w-[160px]">
                 </router-link>
 
-                <button class="base-button items-center gap-2">
+                <button @click="logout()" class="base-button items-center gap-2">
                     Logout
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 rotate-180">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                        class="w-5 h-5 rotate-180">
                         <path fill-rule="evenodd"
                             d="M17 4.25A2.25 2.25 0 0 0 14.75 2h-5.5A2.25 2.25 0 0 0 7 4.25v2a.75.75 0 0 0 1.5 0v-2a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 .75.75v11.5a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1-.75-.75v-2a.75.75 0 0 0-1.5 0v2A2.25 2.25 0 0 0 9.25 18h5.5A2.25 2.25 0 0 0 17 15.75V4.25Z"
                             clip-rule="evenodd" />
@@ -87,8 +130,8 @@ export default {
                             class="w-5 h-5 opacity-0 stroke-brand-gray absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-300 ease-linear group-hover:opacity-100">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="3" stroke="currentColor"
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                            stroke="currentColor"
                             class="w-5 h-5 opacity-0 stroke-brand-gray absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-300 ease-linear group-hover:opacity-100">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
@@ -146,4 +189,5 @@ export default {
             </main>
         </div>
     </div>
+    <BaseLoader v-else></BaseLoader>
 </template>

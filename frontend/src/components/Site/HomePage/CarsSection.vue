@@ -2,35 +2,16 @@
 import CarCard from '../../UI/CarCard.vue'
 
 export default {
+    props: {
+        data: {
+            type: Array,
+            required: true,
+        }
+    },
     components: { CarCard },
     data() {
         return {
-            data: [
-                {
-                    id: 0
-                },
-                {
-                    id: 1
-                },
-                {
-                    id: 3
-                },
-                {
-                    id: 4
-                },
-                {
-                    id: 5
-                },
-                {
-                    id: 6
-                },
-                {
-                    id: 7
-                },
-                {
-                    id: 8
-                },
-            ]
+            
         }
     },
 }
@@ -48,7 +29,7 @@ export default {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-x-4 gap-4 md:gap-y-6">
-            <CarCard v-for="car, id in data" :key="id"></CarCard>
+            <CarCard v-for="car, id in data" :data="car" :key="id"></CarCard>
         </div>
         <router-link to="/cars" class="base-button mx-auto mt-6 md:!hidden">Ver Mais</router-link>
     </section>

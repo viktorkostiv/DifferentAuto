@@ -33,5 +33,19 @@ export const useCarsStore = defineStore('cars', {
                 console.error(error.code);
             }
         },
+
+        async getActive() {
+            const list = await this.getAll();
+            const data = list.filter(el => el.status === 'active')
+
+            return data;
+        },
+
+        async getBanner(){
+            const list = await this.getAll();
+            const data = list.filter(el => el.showOnBanner === true)
+
+            return data;
+        }
     },
 });

@@ -10,6 +10,7 @@ const cors = require('cors');
 const compression = require('compression');
 const admin = require("firebase-admin");
 
+const AuthRouter = require('./routes/AuthRouter');
 const CarsRouter = require('./routes/CarsRouter');
 
 const serviceAccount = require("./serviceAccountKey.json");
@@ -44,8 +45,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(compression())
 
+app.use('/auth', AuthRouter);
 app.use('/api/cars', CarsRouter);
-// app.use('/api/rooms', RoomsRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));

@@ -106,7 +106,7 @@ export default {
             }
         },
 
-        async showOnBanner(value) {
+        async showOnBanner() {
             this.validate();
 
             if (this.validation.emptyFields.length > 0 ||
@@ -133,7 +133,7 @@ export default {
             try {
                 let domain = this.utilsStore.domain;
                 let data = {
-                    showOnBanner: value,
+                    showOnBanner: !this.data.showOnBanner,
                     id: this.data.id,
                 }
                 await axios

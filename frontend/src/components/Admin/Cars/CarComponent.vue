@@ -72,15 +72,16 @@ export default defineComponent({
                         'combustível').value : 'Não Especificado' }}</p>
         </div>
 
-        <Galleria v-if="data.images.length > 0":value="data.images.sort((a, b) => a.order - b.order)" :numVisible="4"
+        <Galleria v-if="data.images.length > 1" :value="data.images.sort((a, b) => a.order - b.order)" :numVisible="4"
             :responsiveOptions="responsiveOptions">
             <template #item="slotProps">
                 <Image :src="slotProps.item.url" alt="car" class="w-full duration-300 ease-linear group" preview />
             </template>
-            <template #thumbnail="slotProps" v-if="data.images.length > 1">
+            <template #thumbnail="slotProps">
                 <img :src="slotProps.item.url" alt="car" />
             </template>
         </Galleria>
+        <Image v-else :src="data.images[0].url" alt="car" class="w-full duration-300 ease-linear group max-w-[620px] xl:max-w-[720px] w-full" preview />
     </div>
     <TabView>
         <TabPanel header="Detalhes" v-if="data.details && data.details.length > 0">

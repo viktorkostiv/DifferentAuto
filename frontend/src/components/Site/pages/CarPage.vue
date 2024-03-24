@@ -1,13 +1,27 @@
 <script>
+import { useCarsStore } from '../../../stores/cars';
+import { useUtilsStore } from '../../../stores/utils';
 import Galleria from 'primevue/galleria';
 import Image from 'primevue/image';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import BaseLoader from '../../UI/BaseLoader.vue';
 
 export default {
-    components: { Galleria, Image, TabView, TabPanel },
+    setup() {
+        const carsStore = useCarsStore();
+        const utilsStore = useUtilsStore();
+
+        return {
+            carsStore,
+            utilsStore
+        };
+    },
+    components: { Galleria, Image, TabView, TabPanel, BaseLoader },
     data() {
         return {
+            data: null,
+
             responsiveOptions: [
                 {
                     breakpoint: '630px',
@@ -18,38 +32,45 @@ export default {
                     numVisible: 2
                 },
             ],
-            images: [
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F1-8055024753-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=a3795565-b7eb-434b-93cb-8584f9ef8b44',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F2-8014687986-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=1f467a5e-49ee-4ba1-9a21-e85be7cb14a3',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F3-8055128897-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=d2c1637b-dec4-47fd-8795-755e528c183d',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F4-8023315449-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=3656b611-7e2b-43c0-b1f6-47726da8f83c',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F5-8091010152-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=79081046-f1e1-464f-8def-1ae316e7ae69',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F6-8099533471-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=4f2c5dd4-7d27-43c0-bab8-17739641f2ea',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F7-8025595277-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=322c8278-0a4e-4176-b602-cbb733bd1b72',
-                'https://firebasestorage.googleapis.com/v0/b/different-auto.appspot.com/o/0SQMYWCR8C9IKU9AGNK4%2F8-8085258510-citroen-picasso-c4-grand-picasso.jpg?alt=media&token=d05cff48-d003-4f2e-b172-452c6b63716c',
-            ]
         }
+    },
+    methods: {
+        async getCar() {
+            const currentPathname = window.location.pathname;
+            const pathSegments = currentPathname.split('/');
+
+            this.data = await this.carsStore.getById(pathSegments[pathSegments.length - 1]);
+        },
+    },
+    async mounted() {
+        await this.getCar();
     }
 }
 </script>
 
 <template>
-    <section class="max-w-[1220px] w-full mx-auto px-4 py-12">
+    <section v-if="data" class="max-w-[1220px] w-full mx-auto px-4 py-12">
         <div class="flex flex-col lg:flex-row gap-8 justify-between">
             <div class="order-2 lg:order-1">
                 <div class="w-fit">
-                    <h2 class="font-Barlow font-bold text-brand-black text-2xl md:text-3xl uppercase">Audi A6 Avant 40 TDI S</h2>
+                    <h2 class="font-Barlow font-bold text-brand-black text-2xl md:text-3xl uppercase">{{ data.title }}
+                    </h2>
                     <div class="w-1/3 h-1 bg-brand-orange"></div>
                 </div>
-                <p class="font-Barlow font-normal text-xl text-brand-black mt-4">2021 &#x2022; 8 000km &#x2022; Diesel</p>
+                <p class="font-Barlow font-normal text-xl text-brand-black mt-4">
+                    {{ data.details.find(el => el.title.toLowerCase() === 'ano').value }}
+                    &#x2022;
+                    {{ data.details.find(el => el.title.toLowerCase() === 'quilómetros').value }}km
+                    &#x2022;
+                    {{ data.details.find(el => el.title.toLowerCase() === 'combustível').value }}</p>
                 <p class="font-Barlow font-medium text-lg text-brand-black/50 mt-12">Valor</p>
-                <p class="font-Barlow font-bold text-2xl text-brand-orange mb-8">42 500 $</p>
+                <p class="font-Barlow font-bold text-2xl text-brand-orange mb-8">{{ data.price }}€</p>
                 <a href=""
                     class="font-Barlow font-medium text-lg text-brand-black/50 underline duration-300 ease-linear hover:text-brand-orange">
                     Calcular o empréstimo
                 </a>
                 <div class="flex gap-3 mt-12 lg:mt-24">
-                    <a href="" class="base-button gap-2">
+                    <a :href="`mailto:${utilsStore.email}`" class="base-button gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd"
                                 d="M5.404 14.596A6.5 6.5 0 1 1 16.5 10a1.25 1.25 0 0 1-2.5 0 4 4 0 1 0-.571 2.06A2.75 2.75 0 0 0 18 10a8 8 0 1 0-2.343 5.657.75.75 0 0 0-1.06-1.06 6.5 6.5 0 0 1-9.193 0ZM10 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
@@ -58,7 +79,7 @@ export default {
 
                         E-mail
                     </a>
-                    <a href="" class="base-button gap-2">
+                    <a :href="`tel:${utilsStore.phoneNumber}`" class="base-button gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                             class="w-5 h-5 fill-white duration-300 ease-linear group-hover:scale-125 group-hover:fill-brand-orange">
                             <path fill-rule="evenodd"
@@ -70,64 +91,47 @@ export default {
                 </div>
             </div>
             <div class="order-1 lg:order-2 mx-auto lg:mx-0">
-                <Galleria :value="images" :numVisible="4" :responsiveOptions="responsiveOptions">
+                <Galleria v-if="data.images.length > 1" :value="data.images.sort((a, b) => a.order - b.order)"
+                    :numVisible="4" :responsiveOptions="responsiveOptions">
                     <template #item="slotProps">
-                        <Image :src="slotProps.item" alt="car" class="w-full duration-300 ease-linear group" preview />
+                        <Image :src="slotProps.item.url" alt="car" class="w-full duration-300 ease-linear group"
+                            preview />
                     </template>
-                    <template #thumbnail="slotProps" v-if="images.length > 1">
-                        <img :src="slotProps.item" alt="car" />
+                    <template #thumbnail="slotProps">
+                        <img :src="slotProps.item.url" alt="car" />
                     </template>
                 </Galleria>
+                <Image v-else :src="data.images[0].url" alt="car"
+                    class="w-full duration-300 ease-linear group max-w-[620px] xl:max-w-[720px] w-full" preview />
             </div>
         </div>
 
         <div class="mt-12">
             <TabView>
-                <TabPanel header="Equipamento">
+                <TabPanel header="Detalhes" v-if="data.details && data.details.length > 0">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-20 gap-y-5">
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional</p>
+                        <div v-for="el, id in data.details" :key="id" class="w-full flex gap-8 justify-between">
+                            <p class="font-Barlow font-medium text-lg text-brand-black capitalize">{{ el.title }} :</p>
+                            <p class="font-Barlow font-bold text-lg text-brand-black">{{ el.value }}</p>
                         </div>
                     </div>
                 </TabPanel>
-                <TabPanel header="Detalhes">
+                <TabPanel header="Equipamento" v-if="data.equipment && data.equipment.length > 0">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-20 gap-y-5">
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
-                        <div class="w-full flex gap-8">
-                            <p class="font-Barlow font-medium text-lg text-brand-black">Anunciante :</p>
-                            <p class="font-Barlow font-bold text-lg text-brand-black">Profissional1</p>
-                        </div>
+                        <p v-for="el, id in data.equipment" :key="id"
+                            class="font-Barlow font-semibold text-lg text-brand-black">
+                            &#x2022; {{ el }}</p>
+                    </div>
+                </TabPanel>
+                <TabPanel header="Additional" v-if="data.additional && data.additional.length > 0">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-20 gap-y-5">
+                        <p v-for="el, id in data.additional" :key="id"
+                            class="font-Barlow font-semibold text-lg text-brand-black">
+                            &#x2022; {{ el }}</p>
                     </div>
                 </TabPanel>
             </TabView>
         </div>
     </section>
+    <BaseLoader v-else></BaseLoader>
 </template>

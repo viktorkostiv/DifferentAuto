@@ -9,14 +9,19 @@ export default {
     DashboardLayout,
     BaseAlert,
   },
+  data() {
+    return {
+      isAdmin: false,
+    }
+  },
   methods: {
     getTemplate() {
       const currentURL = window.location.pathname;
       const pathSegments = currentURL.split('/');
 
       if (pathSegments[1] === 'admin') {
-        return true;
-      } else return false;
+        this.isAdmin = true;
+      } else this.isAdmin = false;
     }
   },
   watch: {
@@ -31,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <PageLayout v-if="!getTemplate()">
+  <PageLayout v-if="!isAdmin">
     <router-view></router-view>
   </PageLayout>
   <DashboardLayout v-else>
