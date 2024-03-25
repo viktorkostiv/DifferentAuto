@@ -150,9 +150,13 @@ export default {
                 this.data = { ...car };
                 this.formData = { ...car };
                 this.formData.images = car.images.sort((a, b) => a.order - b.order);
+
+                this.formData.images.forEach((image, index) => {
+                    image.order = index;
+                });
+
                 this.order = [...this.formData.images].pop().order;
 
-                console.log(this.formData.images);
             } else {
                 const id = `${new Date().getTime()}${Math.random().toString(36).substring(2, 24)}`;
                 this.step = 1;
@@ -186,7 +190,6 @@ export default {
                     this.runAlert('error', 'Erro de validação', 'Existem campos em branco no formulário', 4000);
                 }
 
-                console.log(this.validation)
                 return;
             }
 
@@ -214,10 +217,10 @@ export default {
         },
 
         onSortEnd(event) {
-            const elOne = this.formData.images.find(el => el.order === event.newIndex + 1);
-            const elTwo = this.formData.images.find(el => el.order === event.oldIndex + 1);
+            const elOne = this.formData.images.find(el => el.order === event.newIndex);
+            const elTwo = this.formData.images.find(el => el.order === event.oldIndex);
 
-            [elOne.order, elTwo.order] = [event.oldIndex + 1, event.newIndex + 1];
+            [elOne.order, elTwo.order] = [event.oldIndex, event.newIndex];
         },
 
         addDetails() {
@@ -419,7 +422,8 @@ export default {
                     </svg>
                 </button>
                 <div class="w-fit" v-if="step != 3">
-                    <h2 class="font-Barlow font-bold text-brand-black text-2xl uppercase">Editar Carro</h2>
+                    <h2 class="font-Barlow font-bold text-brand-black text-2xl uppercase">{{ step ? 'Novo' : 'Editar' }}
+                        Carro</h2>
                     <div class="w-1/3 h-1 bg-brand-orange"></div>
                     <p class="font-Barlow font-semibold text-xl text-brand-gray mt-2">ID: {{ this.formData.id }}</p>
                 </div>
@@ -622,9 +626,9 @@ export default {
                 class="w-full grid grid-cols-4 gap-3 mt-6 admin-images">
                 <template #item="{ element, index }">
                     <div class="relative group">
-                        <!-- <p class="absolute left-0 top-0 bg-brand-orange px-4 py-0.5">
-                                {{ element.order + 1 }}
-                            </p> -->
+                        <!-- <p class="absolute left-0 top-0 bg-brand-orange px-4 py-0.5 z-[2]">
+                            {{ element.order }}
+                        </p> -->
                         <button @click="deleteElement('images', index)"
                             class="absolute right-0 top-0 rounded-bl-xl bg-brand-red p-2 opacity-0 duration-300 ease-linear hover:scale-105 group-hover:opacity-100 z-[2]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
