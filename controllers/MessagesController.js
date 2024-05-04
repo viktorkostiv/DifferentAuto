@@ -120,7 +120,7 @@ exports.create = catchAsync(async (req, res, next) => {
         console.log(`Message was created with id ${data.id}`);
 
         const emailBody = `
-        <h2>Different Auto</h2>
+        <img style="width: 120px;" src="http://cdn.mcauto-images-production.sendgrid.net/96b5621ed44f8e09/b63b2a78-ba22-4532-ad4c-cb322cfb6dbe/497x186.png" alt="logo">
         <br>
         <p>Nome: ${data.name}</p>
         <p>Email: ${data.email}</p>

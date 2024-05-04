@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-    <div class="fixed z-[9999] w-[40px] h-[40px] right-3 top-[80vh]">
+    <div class="fixed z-[9999] w-[40px] h-[40px] right-3 top-[80vh] md:hidden">
         <SpeedDial :model="items" direction="up"
             :style="{ left: 0, top: 0 }" />
     </div>
