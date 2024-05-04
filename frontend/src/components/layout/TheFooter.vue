@@ -31,7 +31,7 @@ export default {
                 </div>
             </div>
 
-            <p class="mt-4 font-Barlow font-light text-sm text-white/80 text-center md:text-left">&copy; 2024 by DifferentAuto v1.0.3</p>
+            <p class="mt-4 font-Barlow font-light text-sm text-white/80 text-center md:text-left">&copy; 2024 by DifferentAuto v1.0.4</p>
         </div>
     </footer>
 </template>

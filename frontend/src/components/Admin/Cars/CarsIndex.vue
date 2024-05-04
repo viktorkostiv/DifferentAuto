@@ -172,7 +172,7 @@ export default {
                     </div>
 
                     <div class="py-2 px-4">
-                        <Image v-if="car.images.length > 0" :src="car.images.find(el => el.order == 1).url" alt="car"
+                        <Image v-if="car.images.length > 0" :src="car.images.find(el => el.order == 0).url" alt="car"
                             preview class="w-full h-[86px] object-cover rounded-md" />
                         <img v-else src="https://placehold.co/180x86?text=Placeholder" alt="#"
                             class="w-full h-[86px] object-cover rounded-md">

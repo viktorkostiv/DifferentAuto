@@ -36,7 +36,7 @@ export default {
     <section class="relative aspect-[320/420] md:aspect-[768/500] lg:aspect-[1440/650] max-h-screen w-full">
         <div v-for="el, id in data" class="absolute w-full h-full top-0 left-0">
             <transition name="popup" mode="out-in">
-                <img v-if="id === activeIndex" :src="el.images.find(el => el.order == 1).url" alt="car"
+                <img v-if="id === activeIndex" :src="el.images.find(el => el.order == 0).url" alt="car"
                     class="w-full h-full object-cover">
             </transition>
         </div>

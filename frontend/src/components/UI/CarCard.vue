@@ -11,7 +11,7 @@ export default {
 
 <template>
     <router-link :to="`/car/${data.id}`" class="relative bg-white shadow-xl duration-300 ease-linear hover:scale-105">
-        <img :src="data.images.find(el => el.order == 1 ).url" alt="car" class="w-full h-auto object-cover aspect-[5/3]">
+        <img :src="data.images.find(el => el.order == 0 ).url" alt="car" class="w-full h-auto object-cover aspect-[5/3]">
         <div class="p-2 md:p-4 md:py-2">
             <div class="w-fit mb-2">
                 <h4 class="font-Barlow font-semibold text-xl text-brand-black">{{ data.title }}</h4>

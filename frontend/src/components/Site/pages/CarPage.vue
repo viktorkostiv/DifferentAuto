@@ -66,10 +66,10 @@ export default {
                     {{ data.details.find(el => el.title.toLowerCase() === 'combustível').value }}</p>
                 <p class="font-Barlow font-medium text-lg text-brand-black/50 mt-12">Valor</p>
                 <p class="font-Barlow font-bold text-2xl text-brand-orange mb-8">{{ data.price }}€</p>
-                <a href=""
+                <!-- <a href=""
                     class="font-Barlow font-medium text-lg text-brand-black/50 underline duration-300 ease-linear hover:text-brand-orange">
                     Calcular o empréstimo
-                </a>
+                </a> -->
                 <div class="flex gap-3 mt-12 lg:mt-24">
                     <a :href="`mailto:${utilsStore.email}`" class="base-button gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">

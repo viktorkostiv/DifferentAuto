@@ -4,8 +4,8 @@ import {
 
 export const useUtilsStore = defineStore('utils', {
     state: () => ({
-        domain: 'http://127.0.0.1:3000',
-        // domain: window.location.origin,
+        // domain: 'http://127.0.0.1:3000',
+        domain: window.location.origin,
 
         phoneNumber: '+351967174525',
         email: 'viktorkostiv@gmail.com',
