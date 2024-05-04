@@ -32,6 +32,7 @@ export default {
                     numVisible: 2
                 },
             ],
+
         }
     },
     methods: {
@@ -92,13 +93,13 @@ export default {
             </div>
             <div class="order-1 lg:order-2 mx-auto lg:mx-0">
                 <Galleria v-if="data.images.length > 1" :value="data.images.sort((a, b) => a.order - b.order)"
-                    :numVisible="4" :responsiveOptions="responsiveOptions">
+                    :numVisible="4" :responsiveOptions="responsiveOptions" :showItemNavigators="true">
                     <template #item="slotProps">
                         <Image :src="slotProps.item.url" alt="car" class="w-full duration-300 ease-linear group"
                             preview />
                     </template>
                     <template #thumbnail="slotProps">
-                        <img :src="slotProps.item.url" alt="car" />
+                        <img :src="slotProps.item.url" alt="car"/>
                     </template>
                 </Galleria>
                 <Image v-else :src="data.images[0].url" alt="car"

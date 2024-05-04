@@ -430,3 +430,7 @@ svg.p-icon.p-dropdown-clear-icon{
 button.p-button.p-component.p-button-icon-only.p-speeddial-button.p-button-rounded.p-speeddial-rotate{
     @apply bg-brand-orange rounded-full shadow-2xl
 }
+
+button.p-galleria-item-prev.p-galleria-item-nav.p-link{
+    @apply z-[10]
+}
