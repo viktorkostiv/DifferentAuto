@@ -52,10 +52,9 @@ export default {
 <template>
     <section v-if="data" class="max-w-[1220px] w-full mx-auto px-4 py-12">
         <div class="flex flex-col lg:flex-row gap-8 justify-between">
-            <div class="order-2 lg:order-1">
+            <div class="order-2 lg:order-1 lg:max-w-[380px]">
                 <div class="w-fit">
-                    <h2 class="font-Barlow font-bold text-brand-black text-2xl md:text-3xl uppercase">{{ data.title }}
-                    </h2>
+                    <h2 class="font-Barlow font-bold text-brand-black text-2xl md:text-3xl uppercase">{{ data.title }}</h2>
                     <div class="w-1/3 h-1 bg-brand-orange"></div>
                 </div>
                 <p class="font-Barlow font-normal text-xl text-brand-black mt-4">
@@ -99,7 +98,7 @@ export default {
                             preview />
                     </template>
                     <template #thumbnail="slotProps">
-                        <img :src="slotProps.item.url" alt="car"/>
+                        <img :src="slotProps.item.url" alt="car" />
                     </template>
                 </Galleria>
                 <Image v-else :src="data.images[0].url" alt="car"
@@ -133,6 +132,15 @@ export default {
                 </TabPanel>
             </TabView>
         </div>
+        <p class="font-Barlow font-medium text-justify text-xl md:text-lg text-brand-gray/90 mt-10">
+            Queremos informar que está disponível o serviço de crédito para a aquisição deste automóvel. O nosso
+            parceiro de
+            crédito é Igor Plesca, intermediário de crédito, devidamente registado no Banco de Portugal sob o número
+            Nº0006677.
+            Para mais informações e para discutir as condições de crédito, solicitamos que entre em contacto com os
+            nossos
+            consultores.
+        </p>
     </section>
     <BaseLoader v-else></BaseLoader>
 </template>

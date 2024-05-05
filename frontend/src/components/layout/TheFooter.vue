@@ -22,16 +22,16 @@ export default {
                 </div>
 
                 <div class="flex gap-6">
-                    <a :href="utilsStore.facebook" class="">
+                    <a :href="utilsStore.facebook" target="_blank" class="">
                         <i class="pi pi-facebook text-2xl md:text-3xl duration-300 ease-linear hover:text-brand-orange"></i>
                     </a>
-                    <a :href="utilsStore.whatsapp" class="">
-                        <i class="pi pi-whatsapp text-2xl md:text-3xl duration-300 ease-linear hover:text-brand-orange"></i>
+                    <a :href="utilsStore.instagram" target="_blank" class="">
+                        <i class="pi pi-instagram text-2xl md:text-3xl duration-300 ease-linear hover:text-brand-orange"></i>
                     </a>
                 </div>
             </div>
 
-            <p class="mt-4 font-Barlow font-light text-sm text-white/80 text-center md:text-left">&copy; 2024 by DifferentAuto v1.0.4</p>
+            <p class="mt-4 font-Barlow font-light text-sm text-white/80 text-center md:text-left">&copy; 2024 by DifferentAuto v1.0.5</p>
         </div>
     </footer>
 </template>
