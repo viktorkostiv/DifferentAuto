@@ -220,7 +220,27 @@ export default {
             const elOne = this.formData.images.find(el => el.order === event.newIndex);
             const elTwo = this.formData.images.find(el => el.order === event.oldIndex);
 
-            [elOne.order, elTwo.order] = [event.oldIndex, event.newIndex];
+            if (Math.abs(event.newIndex - event.oldIndex) == 1) {
+                [elOne.order, elTwo.order] = [event.oldIndex, event.newIndex];
+            } else {
+
+                if (event.newIndex > event.oldIndex) {
+                    this.formData.images.forEach(
+                        (image) => {
+                            image.order = image.order <= event.newIndex && image.order >= event.oldIndex ? image.order - 1 : image.order;
+                        }
+                    );
+                } else {
+                    this.formData.images.forEach(
+                        (image) => {
+                            image.order = image.order >= event.newIndex && image.order <= event.oldIndex ? image.order + 1 : image.order;
+                        }
+                    );
+                }
+
+                elTwo.order = event.newIndex;
+            }
+
         },
 
         addDetails() {
@@ -240,8 +260,19 @@ export default {
                     this.formData.images[id].url
                 );
             }
+            this.formData[list].splice(id, 1);
 
-            this.formData[list].splice(id, 1)
+            if (list == 'images') {
+                this.sortImages();
+            }
+        },
+
+        sortImages() {
+            this.formData.images.forEach(
+                (image, id) => {
+                    image.order = id;
+                }
+            );
         },
 
         validate() {
@@ -295,6 +326,7 @@ export default {
         async onAdvancedUpload(event) {
             this.runAlert('success', 'Upload bem-sucedido', '', 3000);
             let car = await this.carsStore.getById(this.formData.id);
+
             this.formData.images = car.images.sort((a, b) => a.order - b.order);
         },
 
@@ -318,12 +350,12 @@ export default {
             this.validation.emptyAdditional = this.validation.emptyAdditional.filter(item => item !== field);
         },
 
-        cancelChanges() {
+        async cancelChanges() {
             if (this.step) {
                 this.title = 'Confirmação de Exclusão',
                     this.question = 'Tem certeza de que deseja excluir este carro?'
                 this.deleteModal = true;
-            } else this.formData = { ...this.data };
+            } else await this.getCar();
         },
 
         stepBack() {
@@ -623,12 +655,12 @@ export default {
             </FileUpload>
 
             <Sortable :list="formData.images" itemKey="list" @end="onSortEnd"
-                class="w-full grid grid-cols-4 gap-3 mt-6 admin-images">
+                class="w-full grid grid-cols-4 gap-3 mt-6 admin-images ">
                 <template #item="{ element, index }">
-                    <div class="relative group">
-                        <!-- <p class="absolute left-0 top-0 bg-brand-orange px-4 py-0.5 z-[2]">
+                    <div class="relative group ">
+                        <p class="absolute left-0 top-0 bg-brand-orange px-4 py-0.5 z-[2]">
                             {{ element.order }}
-                        </p> -->
+                        </p>
                         <button @click="deleteElement('images', index)"
                             class="absolute right-0 top-0 rounded-bl-xl bg-brand-red p-2 opacity-0 duration-300 ease-linear hover:scale-105 group-hover:opacity-100 z-[2]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

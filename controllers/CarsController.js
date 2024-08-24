@@ -136,7 +136,7 @@ exports.uploadImages = catchAsync(async (req, res, next) => {
             });
             urls.push({
                 url,
-                order: index + parseInt(order) + 1,
+                order: index + parseInt(order),
                 path: destination
             });
         });
